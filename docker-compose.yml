@@ -7,41 +7,41 @@ services:
         uid: 1000
       context: ./
       dockerfile: Dockerfile
-    image: putra
-    container_name: webputra
+    image: voyager
+    container_name: voyager-laravel
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
       - ./:/var/www
     networks:
-      - putra
+      - voyager
 
   db:
     image: mysql:8.0
-    container_name: dbputra
+    container_name: voyager-database
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: putra
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_PASSWORD:
-      MYSQL_USER: root
+      MYSQL_DATABASE: voyager
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_PASSWORD: password
+      MYSQL_USER: voyager
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
-      - putra
+      - voyager
 
   nginx:
     image: nginx:alpine
-    container_name: nginxputra
+    container_name: voyager-nginx
     restart: unless-stopped
     ports:
       - 8000:80
     volumes:
       - ./:/var/www
-      - ./nginxputra:/etc/nginx/conf.d/
+      - ./nginxvoyager:/etc/nginx/conf.d/
     networks:
-      - putra
+      - voyager
 
 networks:
-  putra:
+  voyager:
     driver: bridge
